@@ -6,22 +6,20 @@ const condicao = document.querySelector('#condicao')
 const umidade = document.querySelector('#umidade')
 const iconeTempo = document.querySelector('.icone-tempo')
 
+
 async function buscarCidade(cidade){
-    const dados = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=${key}&lang=pt_br&units=metric`).then(resposta => resposta.json())
+    const busca = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=${key}&lang=pt_br&units=metric`)
+    const dados = await busca.json()
     imprimeDados(dados)
 }
 
-function busca() {
-        const cidade = document.querySelector('.input').value
-        buscarCidade(cidade)
-    
-}
+btn.addEventListener('click', () => {
+    const cidade = document.querySelector('.input').value
+    buscarCidade(cidade)
+})
 
 function imprimeDados(dados) {
-    console.log(dados)
-    tempoCidade.innerHTML = `
-    Tempo em ${dados.name}
-    `
+    tempoCidade.innerHTML = `Tempo em ${dados.name}`
     temp.innerHTML = Math.floor(dados.main.temp) + '°C'
     condicao.innerHTML = dados.weather[0].description
     umidade.innerHTML = `Umidade: ${dados.main.humidity}%`
